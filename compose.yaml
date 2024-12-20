@@ -1,0 +1,33 @@
+services:
+  app:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails server"
+    environment:
+      DB_HOST: db
+      DB_USER: app
+      DB_PASSWORD: password
+      DB_NAME: sre_study_development
+    volumes:
+      - .:/var/www/sre-study
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0.40
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --collation-server=utf8mb4_general_ci
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: sre_study_development
+      MYSQL_USER: app
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
