@@ -4,9 +4,6 @@ services:
     command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails server"
     environment:
       DB_HOST: db
-      DB_USER: app
-      DB_PASSWORD: password
-      DB_NAME: sre_study_development
     volumes:
       - .:/var/www/sre-study
     ports:
@@ -20,10 +17,7 @@ services:
       --collation-server=utf8mb4_general_ci
     env_file: .env
     environment:
-      MYSQL_DATABASE: sre_study_development
-      MYSQL_USER: app
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
     ports:
       - '3306:3306'
     volumes:
